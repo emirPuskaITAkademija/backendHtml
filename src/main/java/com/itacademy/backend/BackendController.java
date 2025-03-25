@@ -2,10 +2,7 @@ package com.itacademy.backend;
 
 import com.itacademy.backend.country.Country;
 import com.itacademy.backend.country.CountryService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,7 +33,17 @@ public class BackendController {
                 """.formatted(selectedCountry);
     }
 
+    @GetMapping("/countries")
+    @CrossOrigin(origins = "http://localhost:63342")
+    public List<String> listCountries(){
+        return countryService
+                .getAll()
+                .stream()
+                .map(Country::getCountry)
+                .toList();
+    }
 
+    //GET http://localhost:8080/country
     @GetMapping("/country")
     public String getCountries() {
         StringBuilder htmlResponse = new StringBuilder("""

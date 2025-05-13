@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 public class BackendController {
@@ -18,7 +19,7 @@ public class BackendController {
 
     //http://localhost:8080/country
     @PostMapping("/country")
-    public String selectCountry(@RequestParam String selectedCountry){
+    public String selectCountry(@RequestParam String selectedCountry) {
         return """
                 <html>
                 <head>
@@ -31,13 +32,13 @@ public class BackendController {
                 """.formatted(selectedCountry);
     }
 
-    @GetMapping("/countries")
+    @GetMapping(value = "/countries", produces = "application/json")
     @CrossOrigin(origins = "http://localhost:63342")
-    public List<String> listCountries(){
+    public List<Country> listCountries() {
         return countryService
                 .getAll()
                 .stream()
-                .map(Country::getCountry)
+//                .map(Country::getCountry)
                 .toList();
     }
 
@@ -60,7 +61,7 @@ public class BackendController {
                 .stream()
                 .map(Country::getCountry)
                 .toList();
-        for(String country : countries){
+        for (String country : countries) {
             htmlResponse
                     .append("<option value=")
                     .append(country)
